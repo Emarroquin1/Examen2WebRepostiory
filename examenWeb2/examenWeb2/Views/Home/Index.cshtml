@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "EXAMEN 2 WEB";
+}
+@model List<dynamic>
+<p>
+    •1. Crear una función que reciba el “# de orden” y muestre el total ($) de esa orden
+    junto con el detalle (1 pt)
+</p>
+<h3>Orden: @ViewBag.orden</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Orden ID</th>
+            <th>Nombre del producto</th>
+            <th>Precio unitario</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detalle in ViewBag.DetalleOrden)
+        {
+            <tr>
+                <td>@detalle.OrderId</td>
+                <td>@detalle.ProductName</td>
+                <td>@detalle.UnitPrice</td>
+                <td>@detalle.Quantity</td>
+                <td>@detalle.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>2. Mostrar el nombre del “Shipper”, el numero de orden, y el país de las órdenes enviadas a UK (1 pt)</p>
+<br />
+<table class="table table-hover">
+    <tr><td>Nombre del Shipper</td><td>Numero de Orden</td><td>Pais de las Ordenes</td></tr>
+    @foreach (var Muestra in ViewBag.orden1)
+    {
+        <tr><td>@Muestra.CompanyName</td><td>@Muestra.OrderId</td><td>@Muestra.ShipCountry</td></tr>
+    }
+
+</table>
+<p>
+   3. Mostrar el nombre y la cantidad vendida del producto menos vendido en la base
+    de datos Northwind (Orders y products)  (1 pt)
+</p>
+
+<p>
+    Producto menos vendido: @ViewBag.productoMenosVendidoNombre<br />
+    Cantidad vendida: @ViewBag.productoMenosVendidoCantidad
+</p>
+<p>
+    4. Crear una consulta explícita que permita:
+    o Ver una lista de los 10 productos más vendidos (ordenados por cantidad
+    vendida de menor a mayor).
+    o Ver de todos los empleados que trabajan en el territorio "Columbia" y que
+    tengan más de 10 años de experiencia
+    o No olvide el manejo de errores (1.5 pt)
+</p>
+<!-- Imprimir los 10 productos más vendidos -->
+<h2>Productos más vendidos</h2>
+<table>
+    <tr>
+        <th>Nombre del producto</th>
+        <th>Cantidad vendida</th>
+    </tr>
+    @foreach (var producto in ViewBag.ProductosMasVendidos)
+    {
+        <tr>
+            <td>@producto.ProductName</td>
+            <td>@producto.CantidadVendida</td>
+        </tr>
+    }
+</table>
+
+<!-- Imprimir los empleados en "Columbia" con más de 10 años de experiencia -->
+<h2>Empleados en Columbia con más de 10 años de experiencia</h2>
+<ul>
+    @foreach (var empleado in ViewBag.EmpleadosColumbia)
+    {
+        <li>@empleado.FirstName @empleado.LastName</li>
+    }
+</ul>
+
+    <p>@if(ViewBag.error!=null){
+        @ViewBag.error}
+</p>
+
+<p>5. Listar el nombre del producto, nombre del proveedor y precio de todos los productos que tengan un precio de venta entre $50 y $100.00 y que si haya existencia en órdenes de compras.</p>
+<br />
+<table class="table table-hover">
+    <tr><td>Nombre del Proyecto</td><td>Nombre del Proveedor</td><td>Precio</td><td>Existencias</td></tr>
+    @foreach (var Muestra in ViewBag.Producto)
+    {
+        <tr><td>@Muestra.ProductName</td><td>@Muestra.CompanyName</td><td>@Muestra.UnitPrice</td><td>@Muestra.Quantity</td></tr>
+    }
+
+</table>
+<br />
+<p>
+    6. Crear una consulta explicita que permita:
+    o Agregar un nuevo Shipper
+    o Con ese nuevo Shipper agregado, vamos a modificar los registros creados por
+    el EmployeeID = 4 en la tabla Orders, y en el campo ShipperVia vamos a
+    modificar el valor que tiene, y asignaremos el del ShipperId agregado en el
+    punto anterior.
+    o No olvide el manejo de errores(use SavePoint) (1.5 pt)
+</p>
+
+@if (ViewBag.NewShipperId != null)
+{
+    <p>Nuevo Shipper agregado con ShipperId: @ViewBag.NewShipperId</p>
+}
+
+@if (ViewBag.ModifiedOrders != null && ViewBag.ModifiedOrders.Count > 0)
+{
+    <p>Órdenes modificadas:</p>
+    <ul>
+        @foreach (var orderDetail in ViewBag.ModifiedOrders)
+        {
+            <li>@orderDetail</li>
+        }
+    </ul>
+}
+
+<p>
+    7. Crear una función explícita o implícita que devuelva una lista de todos los
+    pedidos realizados por el cliente "ALFKI" y que se hayan enviado a una dirección en
+    "London". No olvide el manejo de errores (1 pt).
+</p>
+
+@if (ViewBag.error != null)
+{
+    <p>@ViewBag.error</p>
+}
+else
+{
+    <table class="table table-hover">
+        <tr><td>OrderID</td><td>CustomerID</td><td>ShipCity</td><td>CompanyName</td></tr>
+        @foreach (var item in ViewBag.datos)
+        {
+            <tr><td>@item.OrderID</td><td>@item.CustomerID</td><td>@item.ShipCity</td><td>@item.CompanyName</td></tr>
+        }
+
+    </table>
+}
